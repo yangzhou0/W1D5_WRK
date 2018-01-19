@@ -1,11 +1,14 @@
 require_relative 'polytree_node.rb'
 require 'byebug'
 class KnightPathFinder
-  attr_reader :visited_positions
+  attr_reader :visited_positions, :origin
   
   def initialize(start_pos)
     @visited_positions = [start_pos]
+    @origin = start_pos
   end
+  
+
   
   def self.valid_moves(pos)
     valid_moves = all_possible_moves(pos)
@@ -38,6 +41,30 @@ class KnightPathFinder
   def self.on_board?(pos)
     (0..7).include?(pos.first) && (0..7).include?(pos.last)
   end
+  
+  def build_move_tree
+    root = PolyTreeNode.new(origin)
+    queue = [root]
+    
+    until queue.empty?
+      parent = queue.shift
+      pos = parent.value
+      
+      new_moves = new_move_positions(pos)
+      
+      new_moves.each do |move|
+        child = PolyTreeNode.new(move)
+        parent.add_child(child)
+        queue << child
+      end
+    end
+    root
+  end
+  
+  # def find_path(target)
+  #   tree = build_move_tree
+  # 
+  # end
 end
 
 
