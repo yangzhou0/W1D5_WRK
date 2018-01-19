@@ -1,6 +1,7 @@
 require 'byebug'
 class PolyTreeNode
   attr_reader :children, :value, :parent
+  
   def initialize (value)
     @value = value
     @parent = nil 
@@ -27,5 +28,16 @@ class PolyTreeNode
     else
       raise "Node does not have this child."
     end
+  end
+  
+  def dfs(target_value)
+    return self if target_value == self.value
+    
+    self.children.each do |child|
+      stored = child.dfs(target_value)
+      return stored unless stored.nil?
+    end
+    
+    nil
   end
 end
