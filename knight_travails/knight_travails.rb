@@ -61,10 +61,19 @@ class KnightPathFinder
     root
   end
   
-  # def find_path(target)
-  #   tree = build_move_tree
-  # 
-  # end
+  def find_path(target)
+    path = []
+    tree = build_move_tree
+    target_node = tree.bfs(target)
+    trace_path_back(target_node)
+    
+  end
+  
+  def trace_path_back(node)
+    return [node.value] if node.parent == nil
+      (trace_path_back(node.parent)) << node.value
+  end
+    
 end
 
 
